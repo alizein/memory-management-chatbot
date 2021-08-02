@@ -30,6 +30,14 @@ public:
     //// STUDENT CODE
     ////
 
+    // azein: (T2) overloading copy constructor and copy assignment operator
+    ChatBot(const ChatBot& other);
+    ChatBot& operator=(const ChatBot& other);
+
+    // azein: (T2) overloading move constructor and move assignment operator
+    ChatBot(ChatBot&& other);
+    ChatBot& operator=(ChatBot&& other);
+
     ////
     //// EOF STUDENT CODE
 

@@ -45,6 +45,97 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+// azein: (T2) overloading copy constructor and copy assignment operator
+ChatBot::ChatBot(const ChatBot& other)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    // azein: (T2) perform shallow copy to non-owned handles
+    _currentNode = other._currentNode;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+
+    // azein: (T2) perorm deep copy to owned handles
+    _image = new wxBitmap();
+    *_image = *other._image;
+
+    _chatLogic->SetChatbotHandle(this);
+}
+
+ChatBot& ChatBot::operator=(const ChatBot& other)
+{
+    std::cout << "ChatBot Copy Assignment" << std::endl;
+
+    // azein: (T2) protect against self assignment
+    if (this == &other)
+        return *this;
+    
+    // azein: (T2) perform shallow copy to non-owned handles
+    _currentNode = other._currentNode;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+
+    // azein: (T2) delete already existing image on heap before assigning new one
+    if (_image != NULL)
+        delete _image;
+    
+    // azein: (T2) perorm deep copy to owned handles
+    _image = new wxBitmap();
+    *_image = *other._image;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    return *this;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+}
+
+// azein: (T2) overloading move constructor and move assignment operator
+ChatBot::ChatBot(ChatBot&& other)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    // azein: (T2) perform shallow copy to non-owned handles then invalidate original handles
+    _currentNode = other._currentNode;
+    other._currentNode = nullptr;
+    _chatLogic = other._chatLogic;
+    other._chatLogic = nullptr;
+    _rootNode = other._rootNode;
+    other._rootNode = nullptr;
+
+    // azein: (T2) perorm shallow copy to owned handles without deep copy
+    _image = other._image;
+    other._image = nullptr;
+
+    _chatLogic->SetChatbotHandle(this);
+}
+
+ChatBot& ChatBot::operator=(ChatBot&& other)
+{
+    std::cout << "ChatBot Move Assignment" << std::endl;
+
+    // azein: (T2) protect against self assignment
+    if (this == &other)
+        return *this;
+    
+    // azein: (T2) perform shallow copy to non-owned handles then invalidate original handles
+    _currentNode = other._currentNode;
+    other._currentNode = nullptr;
+    _chatLogic = other._chatLogic;
+    other._chatLogic = nullptr;
+    _rootNode = other._rootNode;
+    other._rootNode = nullptr;
+    
+    if (_image != NULL)
+        delete _image;
+        
+    // azein: (T2) perorm shallow copy to owned handles then invalidate the original handle
+    _image = other._image;
+    other._image = nullptr;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    return *this;  
+}
+
 ////
 //// EOF STUDENT CODE
 
