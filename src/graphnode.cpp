@@ -11,7 +11,8 @@ GraphNode::~GraphNode()
     //// STUDENT CODE
     ////
 
-    delete _chatBot; 
+    // azein: (T0) double deletion bug, chatbot to be deleted by chatlogic class destructor
+    // delete _chatBot; 
 
     ////
     //// EOF STUDENT CODE

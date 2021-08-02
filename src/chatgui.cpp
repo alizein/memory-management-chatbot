@@ -118,7 +118,10 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     ////
 
     // create chat logic instance
-    _chatLogic = new ChatLogic(); 
+    // azein: (T1) replace raw allocation to heap, with unique pointer initilization
+    //_chatLogic = new ChatLogic(); 
+    _chatLogic = std::make_unique<ChatLogic>();
+    
 
     // pass pointer to chatbot dialog so answers can be displayed in GUI
     _chatLogic->SetPanelDialogHandle(this);
@@ -135,7 +138,8 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
     //// STUDENT CODE
     ////
 
-    delete _chatLogic;
+    // azein: (T1) delete of chatlogic is not needed anymore as it will be deleted automatically with the unique_ptr destructor
+    // delete _chatLogic;
 
     ////
     //// EOF STUDENT CODE
