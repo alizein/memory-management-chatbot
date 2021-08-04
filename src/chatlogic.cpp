@@ -18,10 +18,11 @@ ChatLogic::ChatLogic()
     ////
 
     // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+    // azein: (T5) chatlogic is not responsible anymore for allocating and deallocating chatbot
+    // _chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+    // _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -33,7 +34,8 @@ ChatLogic::~ChatLogic()
     ////
 
     // delete chatbot instance
-    delete _chatBot;
+    // azein: (T5) chatlogic is not responsible anymore for allocating and deallocating chatbot
+    // delete _chatBot;
 
     // delete all nodes
     // azein: (T3) nodes will be destructed automatically through smart pointer
@@ -229,8 +231,14 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
+    // azein: (T5) create chatbot instance on the stack
+    ChatBot localchatbot("../images/chatbot.png");
+    _chatBot = &localchatbot;
+    _chatBot->SetChatLogicHandle(this);
+
+    // azein: (T5) move chatbot to instance on the stack to root node
     _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot);
+    rootNode->MoveChatbotHere(std::move(localchatbot));
     
     ////
     //// EOF STUDENT CODE
